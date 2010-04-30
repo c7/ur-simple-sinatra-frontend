@@ -63,6 +63,7 @@ body
   
   div.content
     margin= 2.5em 0
+    overflow: hidden
     
     ul
       margin-bottom: 1.5em
@@ -145,3 +146,12 @@ div.num_found
 
 .hidden
   display: none
+  
+.clearfix
+  *display: inline-block
+  &:after
+    content: " "
+    display: block
+    height: 0
+    clear: both
+    visibility: hidden

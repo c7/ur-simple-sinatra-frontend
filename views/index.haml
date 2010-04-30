@@ -1,4 +1,4 @@
-%div.container-12
+%div.container-12.clearfix
   %div.grid-6
     %h1='UR Produktsök &rarr; &rarr; &rarr;' 
   %div.grid-6 
@@ -9,20 +9,17 @@
           %strong=search.num_found
       %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
       %input.button{ :type => 'submit', :value => 'Sök' }
-  %div.clear
   - if !search.nil? && search.ok? && search.num_found > 0
     %div.grid-8
-      %div.products
+      %div.products.clearfix
         - search.products.each do |product|
-          %div.product
+          %div.product.clearfix
             %div.grid-2.alpha
               %img{ :src => "http://assets.ur.se/id/#{product.ur_product_id}/images/1_t.jpg", :width => 128 }
             %div.grid-6.omega
               %h2
-                %a{ :href => "/#{product.ur_product_id}" }
-                  = product.title
+                %a{ :href => "/#{product.ur_product_id}" }= product.title
               %p=product.easy_to_read_description
-            %div.clear  
         - if search.next_page > current_page
           %div.next_page
             %a{ :href => "/?q=#{params[:q]}&page=#{search.next_page}" }
@@ -40,10 +37,8 @@
                     %span= "(#{facet.hits})"
                 - if search.facets[facet_name].count > 5
                   %li
-                    %a.show_more{ :href => '#' }
-                      = "Visa fler…"
+                    %a.show_more{ :href => '#' }= "Visa fler…"
                   - search.facets[facet_name][5..-1].each do |facet|
                     %li.hidden
                       = "#{facet.value}"
                       %span= "(#{facet.hits})"
-    %div.clear
