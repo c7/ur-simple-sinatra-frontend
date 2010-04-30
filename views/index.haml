@@ -1,4 +1,53 @@
-%h1= page_title
-%form{ :action => '/products', :method => 'get' }
-  %input{ :type => 'text', :name => 'q', :autofocus => 'true' }
-  %input{ :type => 'submit', :value => 'Sök' }
+%div.container-12
+  %div.grid-6
+    %h1='UR Produktsök &rarr; &rarr; &rarr;' 
+  %div.grid-6 
+    %form#search{ :action => '/', :method => 'get' }
+      - if !search.nil? && search.ok?
+        %div.num_found
+          = "Antal träffar"
+          %strong=search.num_found
+      %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
+      %input.button{ :type => 'submit', :value => 'Sök' }
+  %div.clear
+  - if search.nil? || !search.ok?
+    %div.grid-12
+      
+    %div.clear
+  - elsif search.num_found > 0
+    %div.grid-8
+      %div.products
+        - search.products.each do |product|
+          %div.product
+            %div.grid-2.alpha
+              %img{ :src => "http://assets.ur.se/id/#{product.ur_product_id}/images/1_t.jpg", :width => 128 }
+            %div.grid-6.omega
+              %h2
+                %a{ :href => "/#{product.ur_product_id}" }
+                  = product.title
+              %p=product.easy_to_read_description
+            %div.clear  
+        - if search.next_page > current_page
+          %div.next_page
+            %a{ :href => "/?q=#{params[:q]}&page=#{search.next_page}" }
+              ="Nästa sida &rarr;"
+    %div.grid-4
+      %div.sidebar
+        - facet_order.each do |facet_name, facet_title|
+          - if !search.facets[facet_name].nil?
+            %div.facet{ :class => facet_name }
+              %h2=facet_title
+              %ul
+                - search.facets[facet_name][0...5].each do |facet|
+                  %li
+                    = "#{facet.value}"
+                    %span= "(#{facet.hits})"
+                - if search.facets[facet_name].count > 5
+                  %li
+                    %a.show_more{ :href => '#' }
+                      = "Visa fler…"
+                  - search.facets[facet_name][5..-1].each do |facet|
+                    %li.hidden
+                      = "#{facet.value}"
+                      %span= "(#{facet.hits})"
+    %div.clear

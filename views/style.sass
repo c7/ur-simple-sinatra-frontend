@@ -1,7 +1,147 @@
+// Colors
+
+!ur_pink= #E54A83
+!ur_gray= #888888
+!ur_dark_gray= #333333
+
+// Imports
+
+@import sass/reset.sass
+@import sass/960.sass
+@import sass/text.sass
+
+// Mixins
+
+=shadowed-text(!x, !y, !blur, !color)
+  text-shadow= !x !y !blur !color
+
+=round-corners(!amount)
+  border-radius= !amount
+  -moz-border-radius= !amount
+  -webkit-border-radius= !amount
+
+=box-shadow(!x, !y, !blur, !color)
+  box-shadow= !x !y !blur !color
+  -moz-box-shadow= !x !y !blur !color
+  -webkit-box-shadow= !x !y !blur !color
+
+=button(!color, !text_color, !corner_radius, !font_size)
+  +round-corners(!corner_radius)
+  +box-shadow(0, 1px, 3px, rgba(0,0,0,0.3))
+  +shadowed-text(0, -1px, 1px, rgba(0,0,0,0.6))
+  font-size= !font_size
+  background-color= !color
+  display= "inline-block"
+  padding= 0.3em 0.6em
+  color= !text_color
+  text-decoration= "none"
+  font-weight= "bold"
+  line-height= 1em
+  border= 1px "solid" !color
+  position= "relative"
+  cursor= "pointer"
+
+// Styles
+a
+  text-decoration: none
+  color= !ur_pink
+
+h1
+  font-size: 3em
+  margin-top: 0
+  +shadowed-text(0, 2px, 3px, #fff)
+  
+  a
+    color: #000
+
+ul
+  list-style: none
+  margin: 0
+
 body
-  :background-color #CCC
-  #main
-    :background-color #000
-#form
-  :border-color #AAA
-  :border-width 10px
+  background-color: #ddd
+  
+  div.content
+    margin-top= 2.5em
+    
+    ul
+      margin-bottom: 1.5em
+    
+    h2
+      margin-bottom: 0.3em
+    
+    li
+      margin: 0 0 0.3em 0
+      
+      span
+        color= !ur_gray
+    
+    div.no_search
+      text-align: right
+      margin-right: 1.2em
+      font-size: 10em
+      line-height: 0.5em
+    
+    div.main_content, div.sidebar
+      background-color: #fff
+      +round-corners(10px)
+      padding: 1.5em
+    
+    div.products
+      background-color: #fff
+      +round-corners(10px)
+      &:first-child
+        padding-top: 1em
+      &:last-child
+        padding-bottom: 2em
+      
+      div.product
+        
+        div.alpha
+          text-align: center
+          img
+            margin: 0 0 1em 1em
+        h2
+          font-size: 1.4em
+          margin-bottom: 0
+        
+        p
+          color= !ur_gray
+          margin-bottom: 0.1em
+          font-size: 0.9em
+
+      div.next_page
+        text-align: right
+        font-size: 2em
+        margin-right: 1em
+        padding: 1em 0.2em 0
+/* Search form */  
+#search
+  margin-top: 0.8em
+  text-align: right
+  
+  input
+    vertical-align: middle
+  
+  input[type=text]
+    padding: 0.2em
+    font-size: 1.5em
+    +round-corners(0.2em)
+    width: 200px
+  
+  input[type=submit]
+    +button(!ur_pink, #fff, 0.4em, 1.5em)
+    margin-left: 0.5em
+
+div.num_found
+  vertical-align: middle
+  display: inline
+  padding: 0.8em 1em
+  color= !ur_gray
+  margin: 0.4em 0 1em 0
+  
+  strong
+    color= !ur_dark_gray
+
+.hidden
+  display: none

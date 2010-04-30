@@ -3,21 +3,57 @@ require 'ur-product'
 
 set :haml, { :format => :html5 }
 
-get '/' do
-  haml :index, :locals => { 
-    :page_title => 'Sök bland Utbildningsradions produkter'
-  }
+class Object
+  def blank?
+    !(!self.nil? && self.length > 0)
+  end
 end
 
-get '/products' do
-  if !params[:q].nil? && params[:q].length > 0
-    @search = UR::Product.search({:q => params[:q]})
-    haml :products, :locals => { :page_title => 'Sökning…' }
+get %r{/(\d{6})} do |ur_product_id|
+  product = UR::Product.find(ur_product_id)
+  if !product.nil?
+    haml :show, :locals => { 
+      :page_title => "UR Produktsök — #{product.title}",
+      :product => product
+    }
   else
     redirect '/'
   end
 end
 
+get '/' do
+  current_page = 1
+  search_params = { :per_page => 10 }
+  search_result = nil
+  
+  if !params[:q].nil? && params[:q].length > 0
+    search_params[:q] = params[:q]
+    
+    if !params[:page].blank? && params[:page].match(/^\d+$/)
+      search_params[:page] = params[:page].to_i
+      current_page = search_params[:page]
+    end
+    
+    search_result = UR::Product.search(search_params)
+  end
+  
+  haml :index, :locals => { 
+    :page_title => 'UR Produktsök',
+    :current_page => current_page,
+    :search => search_result,
+    :facet_order => [
+      ['search_product_type', 'Typ'],
+      ['typicalagerange', 'Målgrupp'],
+      ['subtitle_languages', 'Textning'],
+      ['productionyear', 'Produktionsår'],
+      ['language', 'Språk'],
+      ['sli_entry', 'SLI-kod']
+    ]
+  }
+  
+end
+
 get '/stylesheets/style.css' do
+  content_type :css
   sass :style
 end

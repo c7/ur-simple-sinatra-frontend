@@ -1,0 +1,18 @@
+%div.container-12
+  %div.grid-6
+    %h1='UR Produktsök &rarr; &rarr; &rarr;' 
+  %div.grid-6 
+    %form#search{ :action => '/', :method => 'get' }
+      %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
+      %input.button{ :type => 'submit', :value => 'Sök' }
+  %div.clear
+  %div.grid-8
+    %div.main_content
+      %h2= product.title
+      %p.easy_to_read_description= product.easy_to_read_description
+      %p.description= product.description
+  %div.grid-4
+    %div.sidebar
+      %img{ :src => "http://assets.ur.se/id/#{product.ur_product_id}/images/1.jpg", :width => 262 }
+  %div.clear
+  

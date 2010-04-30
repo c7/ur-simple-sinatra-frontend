@@ -14,5 +14,6 @@ A simple Sinatra application demonstrating how to use the
   
 ### Dependencies
 
- * [Sinatra](http://www.sinatrarb.com/)
+ * [sinatra](http://www.sinatrarb.com/)
+ * [haml](http://haml-lang.com/) and [sass](http://sass-lang.com/)
  * [ur-product](http://rubygems.org/gems/ur-product)
