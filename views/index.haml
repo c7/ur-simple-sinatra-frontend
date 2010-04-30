@@ -10,11 +10,7 @@
       %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
       %input.button{ :type => 'submit', :value => 'Sök' }
   %div.clear
-  - if search.nil? || !search.ok?
-    %div.grid-12
-      
-    %div.clear
-  - elsif search.num_found > 0
+  - if !search.nil? && search.ok? && search.num_found > 0
     %div.grid-8
       %div.products
         - search.products.each do |product|
