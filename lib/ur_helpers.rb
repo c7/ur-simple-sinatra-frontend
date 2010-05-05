@@ -33,7 +33,8 @@ module Sinatra
         link = link.gsub('fq=', "fq=#{name}:\"#{facet.value}\" ").
                     gsub(/page\=\d+/, "page=1").sub(' &', '&')
       else
-        link = "#{link}&fq=#{name}:\"#{facet.value}\"".gsub(/page\=\d+/, "page=1")
+        link += '&' if link != '/?'
+        link = "#{link}fq=#{name}:\"#{facet.value}\"".gsub(/page\=\d+/, "page=1")
       end
       
       link

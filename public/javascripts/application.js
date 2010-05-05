@@ -5,5 +5,9 @@ $(document).ready(function() {
     $(this).parent().addClass('hidden');
   });
   
-  $('div.num_found').delay(5000).fadeOut();
+  $('input[name=q]').autoComplete({
+    ajax: '/autocomplete.json', 
+    minChars: 3,
+    preventEnterSubmit: false
+  });
 });

@@ -1,6 +1,13 @@
-# Requirements
+# Monkey patching for fun and profit
+module UR
+  class Search
+    SEARCH_SERVICE_URL = 'http://localhost:8080/search'
+  end
+end
 
+# Requirements
 require 'sinatra'
+require 'enumerator'
 require 'lib/ur_helpers'
 require 'ur-product'
 
@@ -40,7 +47,7 @@ get '/' do
   
   search_result = UR::Product.search(search_params)
   
-  haml :index, :locals => { 
+  haml :index, :locals => {
     :page_title => 'UR Produktsök',
     :current_page => current_page,
     :search => search_result,
@@ -53,7 +60,18 @@ get '/' do
       ['sli_entry', 'SLI-kod']
     ]
   }
+end
+
+post '/autocomplete.json' do
+  content_type :json
+  term = URI.escape(params[:value])
+  url = UR::Search::SEARCH_SERVICE_URL + 
+        "/terms?wt=json&terms.fl=search_ao&terms.prefix=#{term}"
+  response = JSON.parse(RestClient.get(url).body)
   
+  response['terms'][1].each_slice(2).each.map { |t|
+    { :value => t[0], :display => t[0] }
+  }.to_json
 end
 
 get '/stylesheets/style.css' do

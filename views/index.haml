@@ -19,7 +19,7 @@
               %div.grid-2.alpha
                 %img{ :src => product.image_url(1, '_t'), :width => 128 }
               %div.grid-6.omega
-                %h2
+                %h4
                   %a{ :href => "/#{product.ur_product_id}" }= product.title
                 %strong
                   = translated_product_type("#{product.product_type}#{product.product_sub_type}")
@@ -32,13 +32,15 @@
       - else
         %div.products
           %div.no_products
-            %h2= "Välkommen till produktsöket…" 
+            %h2= "Välkommen till produktsöket"
     %div.grid-4
       %div.sidebar
+        %h3
+          ="Filtrera träffar"
         - facet_order.each do |facet_name, facet_title|
           - if !search.facets[facet_name].nil? && search.facets[facet_name].size > 0
             %div.facet{ :class => facet_name }
-              %h2=facet_title
+              %h4=facet_title
               %ul
                 - search.facets[facet_name][0...5].each do |facet|
                   %li
