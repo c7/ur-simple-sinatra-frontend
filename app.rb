@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'lib/ur_helpers'
 require 'ur-product'
 
 set :haml, { :format => :html5 }
@@ -26,6 +27,10 @@ get '/' do
   search_params = { :per_page => 10 }
   search_result = nil
   
+  if !params[:fq].nil? && params[:fq].length > 0
+    search_params[:fq] = params[:fq]
+  end
+    
   if !params[:q].nil? && params[:q].length > 0
     search_params[:q] = params[:q]
     

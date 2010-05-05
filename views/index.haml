@@ -1,6 +1,6 @@
 %div.container-12.clearfix
   %div.grid-6
-    %h1='UR Produktsök &rarr; &rarr; &rarr;' 
+    %h1='UR Produktsök'
   %div.grid-6 
     %form#search{ :action => '/', :method => 'get' }
       - if !search.nil? && search.ok?
@@ -15,10 +15,13 @@
         - search.products.each do |product|
           %div.product.clearfix
             %div.grid-2.alpha
-              %img{ :src => "http://assets.ur.se/id/#{product.ur_product_id}/images/1_t.jpg", :width => 128 }
+              %img{ :src => product.image_url(1, '_t'), :width => 128 }
             %div.grid-6.omega
               %h2
                 %a{ :href => "/#{product.ur_product_id}" }= product.title
+              %strong
+                = translated_product_type("#{product.product_type}#{product.product_sub_type}")
+                = " (#{product.production_year})" if !product.production_year.nil?
               %p=product.easy_to_read_description
         - if search.next_page > current_page
           %div.next_page
@@ -27,18 +30,16 @@
     %div.grid-4
       %div.sidebar
         - facet_order.each do |facet_name, facet_title|
-          - if !search.facets[facet_name].nil?
+          - if !search.facets[facet_name].nil? && search.facets[facet_name].size > 0
             %div.facet{ :class => facet_name }
               %h2=facet_title
               %ul
                 - search.facets[facet_name][0...5].each do |facet|
                   %li
-                    = "#{facet.value}"
-                    %span= "(#{facet.hits})"
+                    = haml(:'_facet', { :layout => false, :locals => { :name => facet_name, :facet => facet }})
                 - if search.facets[facet_name].count > 5
                   %li
                     %a.show_more{ :href => '#' }= "Visa fler…"
                   - search.facets[facet_name][5..-1].each do |facet|
                     %li.hidden
-                      = "#{facet.value}"
-                      %span= "(#{facet.hits})"
+                      = haml(:'_facet', { :layout => false, :locals => { :name => facet_name, :facet => facet }})
