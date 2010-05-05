@@ -1,14 +1,12 @@
+# Requirements
+
 require 'sinatra'
 require 'lib/ur_helpers'
 require 'ur-product'
 
-set :haml, { :format => :html5 }
+# Application
 
-class Object
-  def blank?
-    !(!self.nil? && self.length > 0)
-  end
-end
+set :haml, { :format => :html5 }
 
 get %r{/(\d{6})} do |ur_product_id|
   product = UR::Product.find(ur_product_id)
@@ -38,9 +36,9 @@ get '/' do
       search_params[:page] = params[:page].to_i
       current_page = search_params[:page]
     end
-    
-    search_result = UR::Product.search(search_params)
   end
+  
+  search_result = UR::Product.search(search_params)
   
   haml :index, :locals => { 
     :page_title => 'UR Produktsök',

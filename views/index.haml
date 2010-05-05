@@ -1,9 +1,10 @@
 %div.container-12.clearfix
   %div.grid-6
-    %h1='UR Produktsök'
+    %h1
+      %a{ :href => '/' }='UR Produktsök'
   %div.grid-6 
     %form#search{ :action => '/', :method => 'get' }
-      - if !search.nil? && search.ok?
+      - if !search.nil? && search.ok? && should_show_results?
         %div.num_found
           = "Antal träffar"
           %strong=search.num_found
@@ -11,22 +12,27 @@
       %input.button{ :type => 'submit', :value => 'Sök' }
   - if !search.nil? && search.ok? && search.num_found > 0
     %div.grid-8
-      %div.products.clearfix
-        - search.products.each do |product|
-          %div.product.clearfix
-            %div.grid-2.alpha
-              %img{ :src => product.image_url(1, '_t'), :width => 128 }
-            %div.grid-6.omega
-              %h2
-                %a{ :href => "/#{product.ur_product_id}" }= product.title
-              %strong
-                = translated_product_type("#{product.product_type}#{product.product_sub_type}")
-                = " (#{product.production_year})" if !product.production_year.nil?
-              %p=product.easy_to_read_description
-        - if search.next_page > current_page
-          %div.next_page
-            %a{ :href => "/?q=#{params[:q]}&page=#{search.next_page}" }
-              ="Nästa sida &rarr;"
+      - if should_show_results?
+        %div.products.clearfix
+          - search.products.each do |product|
+            %div.product.clearfix
+              %div.grid-2.alpha
+                %img{ :src => product.image_url(1, '_t'), :width => 128 }
+              %div.grid-6.omega
+                %h2
+                  %a{ :href => "/#{product.ur_product_id}" }= product.title
+                %strong
+                  = translated_product_type("#{product.product_type}#{product.product_sub_type}")
+                  = " (#{product.production_year})" if !product.production_year.nil?
+                %p=product.easy_to_read_description
+          - if search.next_page > current_page
+            %div.next_page
+              %a{ :href => next_page_link(search.next_page) }
+                ="Nästa sida &rarr;"
+      - else
+        %div.products
+          %div.no_products
+            %h2= "Välkommen till produktsöket…" 
     %div.grid-4
       %div.sidebar
         - facet_order.each do |facet_name, facet_title|

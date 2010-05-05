@@ -1,5 +1,27 @@
+# Monkeypatch
+class Object
+  def blank?
+    !(!self.nil? && self.length > 0)
+  end
+end
+
 module Sinatra
   module URHelpers
+    
+    def should_show_results?
+      !(params[:fq].blank? && params[:q].blank?)
+    end
+    
+    def next_page_link(next_page)
+      link = base_link
+      
+      if link.match(/page\=/)
+        link.gsub!(/page\=\d+/, "page=#{next_page}")
+      else
+        "#{link}&page=#{next_page}"
+      end
+    end
+    
     def facet_filter(name, facet)
       "#{name}:\"#{quoted_value(facet)}\""
     end
@@ -8,16 +30,20 @@ module Sinatra
       link = base_link
       
       if link.match(/fq=/)
-        link.sub!('fq=', "fq=#{name}:\"#{facet.value}\" ").sub!(' &', '&')
+        link = link.gsub('fq=', "fq=#{name}:\"#{facet.value}\" ").
+                    gsub(/page\=\d+/, "page=1").sub(' &', '&')
       else
-        link += "&fq=#{name}:\"#{facet.value}\""
+        link = "#{link}&fq=#{name}:\"#{facet.value}\"".gsub(/page\=\d+/, "page=1")
       end
       
       link
     end
     
     def remove_facet_link(name, facet)
-      base_link.gsub(/#{name}:"#{quoted_value(facet)}"[ ]{0,}/, '').strip
+      link = base_link  
+      link = link.gsub(/#{name}:"#{quoted_value(facet)}"[ ]{0,}/, '').
+                  gsub('?fq=&', '?').sub(' &', '&')
+      link
     end
     
     def translated_facet(name, facet)

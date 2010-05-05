@@ -1,6 +1,7 @@
 %div.container-12
   %div.grid-6
-    %h1='UR Produktsök' 
+    %h1
+      %a{ :href => '/' }='UR Produktsök'
   %div.grid-6 
     %form#search{ :action => '/', :method => 'get' }
       %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
@@ -13,5 +14,5 @@
       %p.description= product.description
   %div.grid-4
     %div.sidebar
-      %img{ :src => "http://assets.ur.se/id/#{product.ur_product_id}/images/1.jpg", :width => 262 }
+      %img{ :src => product.image_url, :width => 262 }
   
