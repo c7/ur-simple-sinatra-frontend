@@ -1,7 +1,7 @@
 %div.container-12
   %div.grid-6
     %h1
-      %a{ :href => '/' }='UR Produktsök'
+      %a{ :href => '/' }= 'UR Produktsök'
   %div.grid-6 
     %form#search{ :action => '/', :method => 'get' }
       %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
@@ -9,10 +9,13 @@
   %div.clear
   %div.grid-8
     %div.main_content
-      %h2= product.title
+      %h2
+        = product.title
+      %h3
+        = translated_product_type(product.full_type)
+        = " (#{product.production_year})" if !product.production_year.nil?
       %p.easy_to_read_description= product.easy_to_read_description
       %p.description= product.description
   %div.grid-4
     %div.sidebar
-      %img{ :src => product.image_url, :width => 262 }
-  
+      = haml(:'_sidebar', { :layout => false, :locals => { :p => product }})

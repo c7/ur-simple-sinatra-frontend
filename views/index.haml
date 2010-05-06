@@ -22,7 +22,7 @@
                 %h4
                   %a{ :href => "/#{product.ur_product_id}" }= product.title
                 %strong
-                  = translated_product_type("#{product.product_type}#{product.product_sub_type}")
+                  = translated_product_type(product.full_type)
                   = " (#{product.production_year})" if !product.production_year.nil?
                 %p=product.easy_to_read_description
           - if search.next_page > current_page

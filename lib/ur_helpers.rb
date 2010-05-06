@@ -47,6 +47,8 @@ module Sinatra
       link
     end
     
+    # Translations
+    
     def translated_facet(name, facet)
       case name
         when 'search_product_type' then translated_product_type(facet.value)
@@ -55,7 +57,29 @@ module Sinatra
       end
     end
     
-    # Translations
+    def translated_typical_age_range(range)
+      translations = {
+        'preschool' => 'Förskola',
+        'primary0-3' => 'Grundskola 0-3',
+        'primary4-6' => 'Grundskola 4-6',
+        'primary7-9' => 'Grundskola 7-9',
+        'schoolvux'  => 'Vuxenövergripande',
+        'university' => 'Högskola',
+        'komvuxgrundvux' => 'Komvux/Grundvux',
+        'teachereducation' => 'Lärarfortbildning',
+        'folkhighschool' => 'Folkhögskola/Studieförbund',
+        'secondary' => 'Gymnasieskola',
+        'popularadulteducation' => 'Folkbildning'
+      }
+
+      translations.has_key?(range) ? translations[range] : range
+    end
+
+    def translated_typical_age_ranges(ranges)
+      ranges.to_a.map { |range| 
+        translated_typical_age_range(range) 
+      }.join(', ')
+    end
     
     def translated_typical_age_range(range)
       translations = {
@@ -125,6 +149,65 @@ module Sinatra
       }
 
       translations.has_key?(type) ? translations[type] : type
+    end
+    
+    def translated_languages(languages)
+      translations = {
+        'alb' => 'Albanska',
+        'ara' => 'Arabiska',
+        'bos' => 'Bosniska',
+        'bul' => 'Bulgariska',
+        'chi' => 'Mandarin',
+        'cze' => 'Tjeckiska',
+        'dan' => 'Danska',
+        'dut' => 'Nederländska',
+        'eng' => 'Engelska',
+        'est' => 'Estniska',
+        'fin' => 'Finska',
+        'fiu' => 'Meänkieli',
+        'fre' => 'Franska',
+        'ger' => 'Tyska',
+        'gre' => 'Grekiska',
+        'heb' => 'Hebreiska',
+        'hun' => 'Ungerska',
+        'ice' => 'Isländska',
+        'ita' => 'Italienska',
+        'jpn' => 'Japanska',
+        'kaz' => 'Kazakiska',
+        'kur' => 'Kurdiska',
+        'lav' => 'Lettiska',
+        'lit' => 'Litauiska',
+        'mis' => 'Övriga språk',
+        'mlt' => 'Maltesiska',
+        'nor' => 'Norska',
+        'per' => 'Persiska',
+        'pol' => 'Polska',
+        'por' => 'Portugisiska',
+        'rom' => 'Romani',
+        'rom-arli' => 'Romani/arli',
+        'rom-kaal' => 'Romani/kaale',
+        'rom-keld' => 'Romani/kelderash',
+        'rom-lova' => 'Romani/lovara',
+        'rum' => 'Rumänska',
+        'rus' => 'Ryska',
+        'scr' => 'Kroatiska',
+        'sgn-GBR' => 'Engelskt teckenspråk',
+        'sgn-SWE' => 'Svenskt teckenspråk',
+        'slo' => 'Slovakiska',
+        'slv' => 'Slovenska',
+        'sma' => 'Sydsamiska',
+        'sme' => 'Nordsamiska',
+        'smj' => 'Lulesamiska',
+        'som' => 'Somaliska',
+        'spa' => 'Spanska',
+        'srp' => 'Serbiska',
+        'swe' => 'Svenska',
+        'tha' => 'Thailändska',
+        'tur' => 'Turkiska',
+        'yid' => 'Jiddisch'
+      }
+
+      languages.map { |l| translations.has_key?(l) ? translations[l] : l }.join(', ')
     end
     
   private

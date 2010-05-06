@@ -1,0 +1,47 @@
+%img{ :src => p.image_url, :width => 262 }
+%h4= "Generell information"
+%ul
+  - if p.has_typical_age_ranges?
+    %li
+      %label= "Målgrupp:"
+      = translated_typical_age_ranges(p.typical_age_ranges)
+  - if p.has_languages?
+    %li
+      %label= "Talat språk:"
+      = translated_languages(p.languages)
+  - if p.has_duration?
+    %li
+      %label= "Längd:"
+      = p.humanized_duration
+  - if p.has_producing_company?
+    %li
+      %label= "Producerande bolag:"
+      = p.producing_company
+- if p.has_documents?
+  %h4= "Dokument"
+  %ul
+    - p.documents.each do |document|
+      %li
+        %label="#{translated_product_type(document.full_type)}:"
+        - document.storages.each do |storage|
+          %a{ :href => storage.location }= storage.storage_format
+- if p.has_sab? && p.has_sao?
+  %h4= "Ämnen"
+  %ul
+    - if p.has_sab?
+      %li
+        %label= "Ämneskod:"
+        = p.sab.first
+    - if p.has_sao?
+      %li
+        %label= "Ämnesord:"
+        = p.sao.join(', ')
+%h4= "Övrigt"
+%ul
+  %li
+    %label= "ID-nummer:"
+    = p.ur_product_id
+  - if p.has_obsolete_order_id?
+    %li
+      %label="AV-nummer:"
+      = p.obsolete_order_id
