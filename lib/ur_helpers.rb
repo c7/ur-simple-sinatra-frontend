@@ -47,8 +47,9 @@ module Sinatra
       link = base_link
       
       if link.match(/fq=/)
+        link = link.gsub(/ao:\"[^\"]+?\"/, '') if name == 'ao'
         link = link.gsub('fq=', "fq=#{name}:\"#{facet.value}\" ").
-                    gsub(/page\=\d+/, "page=1").sub(' &', '&')
+                    gsub(/page\=\d+/, "page=1").sub(' &', '&').gsub('  ', ' ')
       else
         link += '&' if link != '/?'
         link = "#{link}fq=#{name}:\"#{facet.value}\"".gsub(/page\=\d+/, "page=1")
@@ -57,10 +58,12 @@ module Sinatra
       link
     end
     
-    def remove_facet_link(name, facet)
+    def remove_facet_link(name, facet = false)
+      facet = (facet) ? quoted_value(facet) : '[^\"]+?'
+      
       link = base_link  
-      link = link.gsub(/#{name}:"#{quoted_value(facet)}"[ ]{0,}/, '').
-                  gsub('?fq=&', '?').sub(' &', '&')
+      link = link.gsub(/#{name}:"#{facet}"[ ]{0,}/, '').
+                  gsub('?fq=&', '?').sub(' &', '&').sub('  ', ' ')
       link
     end
     
