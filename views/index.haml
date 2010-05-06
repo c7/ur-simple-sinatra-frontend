@@ -36,7 +36,13 @@
     %div.grid-4
       %div.sidebar
         %h3
-          ="Filtrera träffar"
+          = "Filtrera träffar"
+        - if tag_cloud
+          %div.tag_cloud
+            %h4= "Ämnesord"
+            %ul
+              %li
+                = tag_cloud.html_and_css(15)
         - facet_order.each do |facet_name, facet_title|
           - if !search.facets[facet_name].nil? && search.facets[facet_name].size > 0
             %div.facet{ :class => facet_name }

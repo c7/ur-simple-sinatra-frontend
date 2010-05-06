@@ -1,3 +1,5 @@
+require 'lib/tag_cloud'
+
 # Monkeypatch
 class Object
   def blank?
@@ -7,6 +9,21 @@ end
 
 module Sinatra
   module URHelpers
+    
+    def build_tag_cloud(search_result)
+      cloud = TagCloud.new
+
+      # puts search_result.facets.inspect
+      tags = search_result.facets['ao'].slice(0,15)
+
+      if tags.size > 1
+        tags.each do |tag|
+          cloud.add(tag.value, facet_link('ao', tag), tag.hits)
+        end
+      end
+
+      cloud
+    end
     
     def should_show_results?
       !(params[:fq].blank? && params[:q].blank?)
@@ -48,7 +65,6 @@ module Sinatra
     end
     
     # Translations
-    
     def translated_facet(name, facet)
       case name
         when 'search_product_type' then translated_product_type(facet.value)
