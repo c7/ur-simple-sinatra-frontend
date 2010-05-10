@@ -10,6 +10,7 @@ require 'sinatra'
 require 'enumerator'
 require 'lib/ur_helpers'
 require 'ur-product'
+require 'ur-sab'
 
 # Application
 
@@ -20,11 +21,27 @@ get %r{/(\d{6})} do |ur_product_id|
   if !product.nil?
     haml :show, :locals => { 
       :page_title => "UR Produktsök — #{product.title}",
+      :body_class => 'product',
       :product => product
     }
   else
     redirect '/'
   end
+end
+
+get '/subjects' do
+  sab_search = UR::SabSearch.new(params[:sab_code])
+  
+  if sab_search.subjects.count == 1
+    redirect facet_link('sab_subjects', sab_search.subjects.first.code)
+  end
+  
+  haml :subjects, :locals => {
+    :page_title => 'Navigera i trädstrukturen – UR Produktsök',
+    :body_class => 'subjects',
+    :selected_sab => sab_search.sab,
+    :subjects => sab_search.subjects
+  }
 end
 
 get '/' do
@@ -53,6 +70,7 @@ get '/' do
     :current_page => current_page,
     :search => search_result,
     :tag_cloud => tag_cloud,
+    :body_class => 'search',
     :facet_order => [
       ['search_product_type', 'Typ'],
       ['typicalagerange', 'Målgrupp'],

@@ -1,19 +1,24 @@
 %div.container-12.clearfix
-  %div.grid-6
+  %div.grid-8
     %h1
       %a{ :href => '/' }='UR Produktsök'
-  %div.grid-6 
-    %form#search{ :action => '/', :method => 'get' }
-      - if !search.nil? && search.ok? && should_show_results?
-        %div.num_found
-          = "Antal träffar"
-          %strong=search.num_found
-      %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
-      %input.button{ :type => 'submit', :value => 'Sök' }
+  %div.grid-4
+    %ul.nav
+      %li
+        %a.active{ :href => '/' }="Sök"
+      %li
+        %a{ :href => '/subjects' }="Bläddra ämnesvis"
   - if !search.nil? && search.ok? && search.num_found > 0
     %div.grid-8
-      - if should_show_results?
-        %div.products.clearfix
+      %div.products.clearfix
+        %form#search{ :action => '/', :method => 'get' }
+          %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
+          %input.button{ :type => 'submit', :value => 'Sök' }
+          - if !search.nil? && search.ok? && should_show_results?
+            %div.num_found
+              = "Antal träffar"
+              %strong=search.num_found
+        - if should_show_results?
           - search.products.each do |product|
             %div.product.clearfix
               %div.grid-2.alpha
@@ -28,11 +33,7 @@
           - if search.next_page > current_page
             %div.next_page
               %a{ :href => next_page_link(search.next_page) }
-                ="Nästa sida &rarr;"
-      - else
-        %div.products
-          %div.no_products
-            %h2= "Välkommen till produktsöket"
+                ="Nästa sida &rarr;"    
     %div.grid-4
       %div.sidebar
         %h3

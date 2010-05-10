@@ -48,7 +48,7 @@ a
 
 h1
   font-size: 3em
-  margin-top: 0
+  margin: 0 0 0.2em 0
   +shadowed-text(0, 2px, 3px, #fff)
   
   a
@@ -68,8 +68,10 @@ h2, h3
   padding-top: 0
   
 ul
-  list-style: none
   margin: 0
+  
+li
+  list-style: none
 
 body
   background-color: #ddd
@@ -98,7 +100,7 @@ body
     
     div.main_content, div.sidebar
       background-color: #fff
-      +round-corners(10px)
+      +round-corners(8px)
       padding: 1.5em
     
     div.main_content
@@ -116,7 +118,7 @@ body
     
     div.products
       background-color: #fff
-      +round-corners(10px)
+      +round-corners(8px)
       &:first-child
         padding-top: 1em
       &:last-child
@@ -152,8 +154,7 @@ body
         padding: 1em 0.2em 0
 /* Search form */  
 #search
-  margin-top: 0.8em
-  text-align: right
+  margin: 0 0 1.5em 1em
   
   input
     vertical-align: middle
@@ -170,13 +171,17 @@ body
 
 div.num_found
   vertical-align: middle
-  display: inline
-  padding: 0.8em 1em
   color= !ur_gray
   margin: 0.4em 0 1em 0
   
   strong
     color= !ur_dark_gray
+
+.dimmed
+  color= !ur_gray
+
+.small
+  font-size: x-small
 
 .hidden
   display: none
@@ -225,3 +230,42 @@ ul.auto-complete-list
     color: #fff
   .auto-complete-striped
     background-color: #D7EEF9
+    
+/* Navigation */
+ul.nav
+  float: right
+  margin-top: 1em
+  margin-bottom: 0
+  
+ul.nav li
+  float: left
+  padding-left: 2em
+
+ul.nav a
+  color= !ur_dark_gray
+  font-size: 1.8em
+
+ul.nav a.active
+  border-bottom= 5px "solid" !ur_pink
+  
+/* Subjects (SAB codes) */
+ul.sab_codes
+  margin-top: 1em
+  
+  li
+    strong
+      display: block
+      float: left
+      margin-right: 10px
+      padding: 0 5px
+      width: 40px
+      
+    span
+      a
+        color= !ur_dark_gray
+  
+  li.selected
+    font-size: 1.5em
+    margin-bottom: 0
+    
+    

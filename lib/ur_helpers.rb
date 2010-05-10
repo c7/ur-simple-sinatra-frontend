@@ -45,14 +45,15 @@ module Sinatra
     
     def facet_link(name, facet)
       link = base_link
+      value = (facet.respond_to?('value')) ? facet.value : facet
       
       if link.match(/fq=/)
         link = link.gsub(/ao:\"[^\"]+?\"/, '') if name == 'ao'
-        link = link.gsub('fq=', "fq=#{name}:\"#{facet.value}\" ").
+        link = link.gsub('fq=', "fq=#{name}:\"#{value}\" ").
                     gsub(/page\=\d+/, "page=1").sub(' &', '&').gsub('  ', ' ')
       else
         link += '&' if link != '/?'
-        link = "#{link}fq=#{name}:\"#{facet.value}\"".gsub(/page\=\d+/, "page=1")
+        link = "#{link}fq=#{name}:\"#{value}\"".gsub(/page\=\d+/, "page=1").gsub(/sab_code\=.+?&/, '')
       end
       
       link
