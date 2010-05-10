@@ -1,0 +1,48 @@
+%div.container-12.clearfix
+  %div.grid-8
+    %h1
+      %a{ :href => '/' }= 'UR Produktsök'
+  %div.grid-4
+    %ul.nav
+      %li
+        %a{ :href => '/' }="Sök"
+      %li
+        %a.active{ :href => '/subjects' }= "Bläddra ämnesvis"
+  %div.grid-8
+    %div.main_content
+      %h2="Navigera i trädstrukturen"
+      
+      - if !selected_sab.nil?
+        %div.dimmed#breadcrumbs
+          %a{ :href => '/subjects' }= "Ämnesträdet"
+          = "&gt;"
+          - selected_sab.parents.each do |parent|
+            %a{ :href => "/subjects?sab_code=#{parent.code}" }= parent.text
+            = "&gt;"
+          = selected_sab.text
+      %ul.sab_codes
+        - subjects.each do |sab|
+          - if !selected_sab.nil? && sab.code == selected_sab.code
+            %li.selected
+              %strong= sab.code
+              %span= sab.text
+              %a{ :href => facet_link('sab_subjects', sab.code) }
+                ="#{sab.count} träffar"
+          - else
+            %li
+              %strong= sab.code
+              %span
+                %a{ :href => "/subjects?sab_code=#{sab.code}" }= sab.text
+              %a{ :href => facet_link('sab_subjects', sab.code) }
+                ="#{sab.count} träffar"
+  %div.grid-4
+    %div.sidebar
+      %h3= "Sök på kod"
+      %h4="Ämneskod"
+      %form{ :action => '/subjects' }
+        %input#sab_code{ :type => 'text', :value => params[:sab_code], :name => 'sab_code'}
+        %input{ :type => 'submit', :value=> 'Sök' }
+        %p.small.dimmed
+          = "Hämta SAB-kod från"
+          %a{ :href => 'http://kb.se/katalogisering/Svenska-amnesord/'}
+            = "Svenska ämnesord"
