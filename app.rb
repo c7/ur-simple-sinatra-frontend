@@ -37,7 +37,7 @@ get '/subjects' do
   end
   
   haml :subjects, :locals => {
-    :page_title => 'Navigera i trädstrukturen – UR Produktsök',
+    :page_title => 'Bläddra ämnesvis – UR Produktsök',
     :body_class => 'subjects',
     :selected_sab => sab_search.sab,
     :subjects => sab_search.subjects
