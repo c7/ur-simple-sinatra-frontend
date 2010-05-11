@@ -15,12 +15,44 @@
       %h3
         = translated_product_type(product.full_type)
         = " (#{product.production_year})" if !product.production_year.nil?
+      - if product.has_url?
+        %h5
+          %a{ :href => product.url }= product.url
       %p.easy_to_read_description= product.easy_to_read_description
       %p.description= product.description
+      - if product.has_packagecd?
+        %h4= "CD-skivor"
+        %ul
+          - product.packagecd.each do |p|
+            %li
+              %a{ :href => p.ur_product_id }= p.title
+              %span= "(#{p.related_product_ids.size} program)"
+      - if product.has_packagedvd?
+        %h4= "DVD-skivor"
+        %ul
+          - product.packagedvd.each do |p|
+            %li
+              %a{ :href => p.ur_product_id }= p.title
+              %span= "(#{p.related_product_ids.size} program)"
       - if product.has_packageseries?
-        %h4
-          = "Om serien:"
-          = product.packageseries.first.title
+        - product.packageseries.each do |series|
+          - if series.easy_to_read_description
+            %h4
+              = "#{translated_product_type(series.full_type)}:"
+              %a{ :href => "/#{series.ur_product_id}" }=series.title
+            %p= series.easy_to_read_description
+      - if product.has_siblings?
+        %h4= "Andra program i serien"
+        %table
+          %tbody
+            %tr
+              %th= "Titel"
+              %th= "AV-nummer"
+            - product.siblings.each_with_index do |p, index|
+              %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
+                %td
+                  %a{ :href => p.ur_product_id }= p.title
+                %td= p.obsolete_order_id
   %div.grid-4
     %div.sidebar
       = haml(:'_sidebar', { :layout => false, :locals => { :p => product }})

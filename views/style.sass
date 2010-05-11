@@ -3,6 +3,7 @@
 !ur_pink= #E54A83
 !ur_gray= #888888
 !ur_dark_gray= #333333
+!ur_light_gray= #EEEEEE
 
 // Imports
 
@@ -112,10 +113,27 @@ body
         font-size: 1.5em
         color= !ur_gray
       h4
+        margin-top: 0.6em
         font-weight: normal
         font-size: 1.4em
         color= !ur_dark_gray
+      table
+        width: 100%
+        border-collapse: collapse
+        border-spacing: 0
+        border-width: 0
+        margin-bottom: 1em
+        margin-right: 1em
+        th, td
+          padding: 0.5em
+          border= 1px "solid" !ur_light_gray
+        th
+          text-align: left
+          background= !ur_light_gray
         
+        tr.even td
+          background: #fbfbfb
+      
     div.sidebar
       label
         font-weight: bolder
