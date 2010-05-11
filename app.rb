@@ -17,6 +17,8 @@ require 'ur-sab'
 set :haml, { :format => :html5 }
 
 get %r{/(\d{6})} do |ur_product_id|
+  response["Cache-Control"] = "max-age=60, public" 
+  
   product = UR::Product.find(ur_product_id)
   if !product.nil?
     haml :show, :locals => { 
@@ -30,6 +32,8 @@ get %r{/(\d{6})} do |ur_product_id|
 end
 
 get '/subjects' do
+  response["Cache-Control"] = "max-age=300, public"
+  
   sab_search = UR::SabSearch.new(params[:sab_code])
   
   if sab_search.subjects.count == 1
@@ -45,6 +49,8 @@ get '/subjects' do
 end
 
 get '/' do
+  response["Cache-Control"] = "max-age=60, public"
+  
   current_page = 1
   search_params = { :per_page => 10 }
   search_result = nil
@@ -90,6 +96,8 @@ get '/' do
 end
 
 post '/autocomplete.json' do
+  response["Cache-Control"] = "max-age=120, public"
+  
   content_type :json
   term = URI.escape(params[:value])
   url = UR::Search::SEARCH_SERVICE_URL +
@@ -102,6 +110,8 @@ post '/autocomplete.json' do
 end
 
 get '/stylesheets/style.css' do
+  response["Cache-Control"] = "max-age=120, public"
+  
   content_type :css
   sass :style
 end
