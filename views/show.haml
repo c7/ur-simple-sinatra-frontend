@@ -1,12 +1,13 @@
 %div.container-12
-  %div.grid-6
+  %div.grid-8
     %h1
-      %a{ :href => '/' }= 'UR Produktsök'
-  %div.grid-6 
-    %form#search{ :action => '/', :method => 'get' }
-      %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
-      %input.button{ :type => 'submit', :value => 'Sök' }
-  %div.clear
+      %a{ :href => '/' }='UR Produktsök'
+  %div.grid-4
+    %ul.nav
+      %li
+        %a{ :href => '/' }="Sök"
+      %li
+        %a{ :href => '/subjects' }="Bläddra ämnesvis"
   %div.grid-8
     %div.main_content
       %h2
@@ -16,6 +17,10 @@
         = " (#{product.production_year})" if !product.production_year.nil?
       %p.easy_to_read_description= product.easy_to_read_description
       %p.description= product.description
+      - if product.has_packageseries?
+        %h4
+          = "Om serien:"
+          = product.packageseries.first.title
   %div.grid-4
     %div.sidebar
       = haml(:'_sidebar', { :layout => false, :locals => { :p => product }})

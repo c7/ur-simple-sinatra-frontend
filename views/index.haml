@@ -22,7 +22,8 @@
           - search.products.each do |product|
             %div.product.clearfix
               %div.grid-2.alpha
-                %img{ :src => product.image_url(1, '_t'), :width => 128 }
+                %a{ :href => "/#{product.ur_product_id}" }
+                  %img{ :src => product.image_url(1, '_t'), :width => 128 }
               %div.grid-6.omega
                 %h4
                   %a{ :href => "/#{product.ur_product_id}" }= product.title
@@ -37,7 +38,7 @@
     %div.grid-4
       %div.sidebar
         %h3
-          = "Filtrera träffar"
+          = "Filtrera träffar"  
         - if tag_cloud
           %div.tag_cloud
             %h4= "Ämnesord"
@@ -47,6 +48,16 @@
                   %a.remove_tag_cloud_filter{ :href => remove_facet_link('ao') }
                     = "&otimes;"
                 = tag_cloud.html_and_css(15)
+        - if selected_sab
+          %h4= "Ämneskod"
+          %ul
+            %li
+              %span
+                %strong= selected_sab.code
+                %span= selected_sab.text
+              %a.remove_facet_filter{ :href => remove_facet_link('sab_subjects') }
+                = "&otimes;"
+                
         - facet_order.each do |facet_name, facet_title|
           - if !search.facets[facet_name].nil? && search.facets[facet_name].size > 0
             %div.facet{ :class => facet_name }

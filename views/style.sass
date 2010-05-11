@@ -81,7 +81,7 @@ body
     overflow: hidden
     
     ul
-      margin-bottom: 1.5em
+      margin-bottom: 1em
     
     h4
       margin-bottom: 0.3em
@@ -111,7 +111,11 @@ body
       h3
         font-size: 1.5em
         color= !ur_gray
-    
+      h4
+        font-weight: normal
+        font-size: 1.4em
+        color= !ur_dark_gray
+        
     div.sidebar
       label
         font-weight: bolder
@@ -233,19 +237,19 @@ ul.auto-complete-list
     
 /* Navigation */
 ul.nav
-  float: right
-  margin-top: 1em
+  margin-top: 1.2em
   margin-bottom: 0
+  padding-bottom: 0
   
 ul.nav li
   float: left
-  padding-left: 2em
+  padding-left: 1.55em
 
 ul.nav a
   color= !ur_dark_gray
   font-size: 1.8em
 
-ul.nav a.active
+ul.nav a.active, ul.nav a:hover
   border-bottom= 5px "solid" !ur_pink
   
 /* Subjects (SAB codes) */

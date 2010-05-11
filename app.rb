@@ -62,6 +62,12 @@ get '/' do
     end
   end
   
+  if !params[:fq].nil? && match = params[:fq].match(/sab_subjects:\"(.+?)\"/)
+    selected_sab = UR::Sab.new(match[1])
+  else
+    selected_sab = false
+  end
+  
   search_result = UR::Product.search(search_params)
   tag_cloud = (search_result.ok?) ? build_tag_cloud(search_result) : false
   
@@ -70,6 +76,7 @@ get '/' do
     :current_page => current_page,
     :search => search_result,
     :tag_cloud => tag_cloud,
+    :selected_sab => selected_sab,
     :body_class => 'search',
     :facet_order => [
       ['search_product_type', 'Typ'],
