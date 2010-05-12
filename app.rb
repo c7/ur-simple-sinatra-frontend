@@ -12,6 +12,22 @@ require 'lib/ur_helpers'
 require 'ur-product'
 require 'ur-sab'
 
+# Configuration
+
+configure :development do
+  puts "DEVELOPMENT: Reloading application"
+end
+
+configure :production do
+  require 'memcached'
+  require 'rack/cache'
+    
+  use Rack::Cache,
+    :verbose     => true,
+    :metastore   => 'memcached://localhost:11211/ur-simple-search-meta',
+    :entitystore => 'memcached://localhost:11211/ur-simple-search-body'
+end
+
 # Application
 
 set :haml, { :format => :html5 }
@@ -74,25 +90,34 @@ get '/' do
     selected_sab = false
   end
   
-  search_result = UR::Product.search(search_params)
-  tag_cloud = (search_result.ok?) ? build_tag_cloud(search_result) : false
-  
-  haml :index, :locals => {
-    :page_title => 'UR Produktsök',
-    :current_page => current_page,
-    :search => search_result,
-    :tag_cloud => tag_cloud,
-    :selected_sab => selected_sab,
-    :body_class => 'search',
-    :facet_order => [
-      ['search_product_type', 'Typ'],
-      ['typicalagerange', 'Målgrupp'],
-      ['subtitle_languages', 'Textning'],
-      ['productionyear', 'Produktionsår'],
-      ['language', 'Språk'],
-      ['sli_entry', 'SLI-kod']
-    ]
-  }
+  begin
+    search_result = UR::Product.search(search_params)
+    tag_cloud = (search_result.ok?) ? build_tag_cloud(search_result) : false
+    
+    haml :index, :locals => {
+      :page_title => 'UR Produktsök',
+      :current_page => current_page,
+      :search => search_result,
+      :tag_cloud => tag_cloud,
+      :selected_sab => selected_sab,
+      :body_class => 'search',
+      :facet_order => [
+        ['search_product_type', 'Typ'],
+        ['typicalagerange', 'Målgrupp'],
+        ['subtitle_languages', 'Textning'],
+        ['productionyear', 'Produktionsår'],
+        ['language', 'Språk'],
+        ['sli_entry', 'SLI-kod']
+      ]
+    }
+  rescue Errno::ECONNREFUSED => e
+    haml '%div.container-12
+          %h1="Något gick snett!"
+          %p="Kunde inte ansluta till sökmotorn"', :locals => {
+      :body_class => 'error',
+      :page_title => 'Kunde inte ansluta till sökmotorn - UR Produktsök'
+    }
+  end
 end
 
 post '/autocomplete.json' do
