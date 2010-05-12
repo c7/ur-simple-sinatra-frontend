@@ -11,13 +11,7 @@
   - if !search.nil? && search.ok? && search.num_found > 0
     %div.grid-8
       %div.products.clearfix
-        %form#search{ :action => '/', :method => 'get' }
-          %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
-          %input.button{ :type => 'submit', :value => 'Sök' }
-          - if !search.nil? && search.ok? && should_show_results?
-            %div.num_found
-              = "Antal träffar"
-              %strong=search.num_found
+        = haml :'_search', { :layout => false, :locals => { :search => search }}
         - if should_show_results?
           - search.products.each do |product|
             %div.product.clearfix

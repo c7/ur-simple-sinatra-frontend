@@ -172,21 +172,35 @@ body
 /* Search form */
 #search
   margin: 0 0 1.5em 1em
-  input
+  div.boolean_search
+    color: $ur_gray
+    position: absolute
+    left: -140px
+    top: 15px
+    label
+      vertical-align: middle
+  select
+    font-size: 1em
+    padding: 0.3em
+    margin: 0 0.5em
+    
+  input, label, select
     vertical-align: middle
   input[type=text]
-    padding: 0.2em
-    font-size: 1.5em
-    +round-corners(0.2em)
-    width: 300px
+    padding: 0.1em
+    font-size: 1.2em
+    width: 340px
   input[type=submit]
-    +button($ur_pink, white, 0.4em, 1.5em)
-    margin-left: 0.5em
+    +button($ur_pink, white, 0.2em, 1em)
+    margin-left: 0.4em
+
+div.stream_filters
+  margin-top: 0.4em
 
 div.num_found
   vertical-align: middle
   color: $ur_gray
-  margin: 0.4em 0 1em 0
+  margin: 0.6em 0 1em 0
   strong
     color: $ur_dark_gray
 

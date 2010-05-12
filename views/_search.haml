@@ -1,0 +1,44 @@
+%form#search{ :action => '/', :method => 'get' }
+  %div.boolean_search
+    - if !params[:boolean_search].nil? && params[:boolean_search] == 'on'
+      %input#boolean_search{ :type => 'checkbox', :checked => 'checked', :name => 'boolean_search' }
+    - else
+      %input#boolean_search{ :type => 'checkbox', :name => 'boolean_search' }
+    %label{ :for => "boolean_search" }= "Boolesk sökning"
+  %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
+  %select{ :name => 'sort', :onchange => "$('#search_form').submit();" }
+    - if (!params[:sort].nil? && params[:sort] == '') || params[:sort].nil?
+      %option{ :value => "", :selected => 'selected' }= "Relevans"
+    - else
+      %option{ :value => "" }= "Relevans"
+    - if !params[:sort].nil? && params[:sort] == 'productionyear desc'
+      %option{ :value => "productionyear desc", :selected => 'selected' }= "År, fallande"
+    - else
+      %option{ :value => "productionyear desc" }= "År, fallande"
+    - if !params[:sort].nil? && params[:sort] == 'productionyear asc'
+      %option{ :value => "productionyear asc", :selected => 'selected' }= "År, stigande"
+    - else
+      %option{ :value => "productionyear asc" }= "År, stigande"
+  %input.button{ :type => 'submit', :value => 'Sök' }
+  %div.stream_filters
+    - if (!params[:stream_filter].nil? && params[:stream_filter] == 'off') || params[:stream_filter].nil?
+      %input#stream_filter_off{ :type => 'radio', :value => 'off', :checked => 'checked', :name => 'stream_filter' }
+    - else
+      %input#stream_filter_off{ :type => 'radio', :value => 'off', :name => 'stream_filter' }
+    %label{ :for => "stream_filter_off" }= "Alla"
+
+    - if !params[:stream_filter].nil? && params[:stream_filter] == 'internet'
+      %input#stream_filter_internet{ :type => 'radio', :value => 'internet', :checked => 'checked', :name => 'stream_filter' }
+    - else
+      %input#stream_filter_internet{ :type => 'radio', :value => 'internet', :name => 'stream_filter' }
+    %label{ :for => "stream_filter_internet" }= "Streamas på ur.se"
+
+    - if !params[:stream_filter].nil? && params[:stream_filter] == 'avc'
+      %input#stream_filter_avc{ :type => 'radio', :value => 'avc', :checked => 'checked', :name => 'stream_filter' }
+    - else
+      %input#stream_filter_avc{ :type => 'radio', :value => 'avc', :name => 'stream_filter' }
+    %label{ :for => "stream_filter_avc" }= "UR Access"
+  - if !search.nil? && search.ok? && should_show_results?
+    %div.num_found
+      %strong=search.num_found
+      = "träffar"
