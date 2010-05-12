@@ -84,6 +84,13 @@ get '/' do
     end
   end
   
+  if !params[:stream_filter].nil?
+    case params[:stream_filter]
+      when 'internet' then search_params[:publicstreaming] = 'NOW'
+      when 'avc' then search_params[:avcstreaming] = 'NOW'
+    end
+  end
+  
   if !params[:fq].nil? && match = params[:fq].match(/sab_subjects:\"(.+?)\"/)
     selected_sab = UR::Sab.new(match[1])
   else
