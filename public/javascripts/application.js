@@ -10,4 +10,9 @@ $(document).ready(function() {
     minChars: 3,
     preventEnterSubmit: false
   });
+  
+  $("a.remove_facet_filter").hover(
+    function(){$(this).parent().css('background-color', '#f7f7f7');},
+    function(){$(this).parent().css('background-color', '#fff');}
+  );
 });
