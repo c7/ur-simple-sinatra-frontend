@@ -17,8 +17,7 @@ class TagCloud
     text = "" 
     for level in 0..18
       font = 12 + level
-      text << "span.tagcloud#{level} {font-size: #{font}px;}\n" 
-      text << "span.tagcloud#{level} a {text-decoration: none;}\n" 
+      text << "span.tagcloud#{level} {font-size: #{font}px;}\n"
     end
     text
   end
