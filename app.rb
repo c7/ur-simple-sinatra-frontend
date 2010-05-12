@@ -65,16 +65,20 @@ get '/subjects' do
 end
 
 get '/' do
+  # Caching
   response["Cache-Control"] = "max-age=60, public"
   
+  # Defaults
   current_page = 1
   search_params = { :per_page => 10 }
   search_result = nil
   
+  # Filter query
   if !params[:fq].nil? && params[:fq].length > 0
     search_params[:fq] = params[:fq]
   end
-    
+  
+  # Query and page parameters
   if !params[:q].nil? && params[:q].length > 0
     search_params[:q] = params[:q]
     
@@ -84,6 +88,7 @@ get '/' do
     end
   end
   
+  # Stream filtering
   if !params[:stream_filter].nil?
     case params[:stream_filter]
       when 'internet' then search_params[:publicstreaming] = 'NOW'
@@ -91,6 +96,10 @@ get '/' do
     end
   end
   
+  # Sorting
+  search_params[:sort] = (params[:sort].nil?) ? 'score desc' : params[:sort]
+  
+  # SAB subjects
   if !params[:fq].nil? && match = params[:fq].match(/sab_subjects:\"(.+?)\"/)
     selected_sab = UR::Sab.new(match[1])
   else
