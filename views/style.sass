@@ -1,9 +1,9 @@
 // Colors
 
-!ur_pink= #E54A83
-!ur_gray= #888888
-!ur_dark_gray= #333333
-!ur_light_gray= #EEEEEE
+$ur_pink: #e54a83
+$ur_gray: #888888
+$ur_dark_gray: darken($ur_gray, 70%)
+$ur_light_gray: lighten($ur_gray, 70%)
 
 // Imports
 
@@ -13,110 +13,104 @@
 
 // Mixins
 
-=shadowed-text(!x, !y, !blur, !color)
-  text-shadow= !x !y !blur !color
+=shadowed-text($x, $y, $blur, $color)
+  text-shadow: $x $y $blur $color
 
-=round-corners(!amount)
-  border-radius= !amount
-  -moz-border-radius= !amount
-  -webkit-border-radius= !amount
+=round-corners($amount)
+  border-radius: $amount
+  -moz-border-radius: $amount
+  -webkit-border-radius: $amount
 
-=box-shadow(!x, !y, !blur, !color)
-  box-shadow= !x !y !blur !color
-  -moz-box-shadow= !x !y !blur !color
-  -webkit-box-shadow= !x !y !blur !color
+=box-shadow($x, $y, $blur, $color)
+  box-shadow: $x $y $blur $color
+  -moz-box-shadow: $x $y $blur $color
+  -webkit-box-shadow: $x $y $blur $color
 
-=button(!color, !text_color, !corner_radius, !font_size)
-  +round-corners(!corner_radius)
-  +box-shadow(0, 1px, 3px, rgba(0,0,0,0.3))
-  +shadowed-text(0, -1px, 1px, rgba(0,0,0,0.6))
-  font-size= !font_size
-  background-color= !color
-  display= "inline-block"
-  padding= 0.3em 0.6em
-  color= !text_color
-  text-decoration= "none"
-  font-weight= "bold"
-  line-height= 1em
-  border= 1px "solid" !color
-  position= "relative"
-  cursor= "pointer"
+=button($color, $text_color, $corner_radius, $font_size)
+  +round-corners($corner_radius)
+  +box-shadow(0, 1px, 3px, rgba(0, 0, 0, 0.3))
+  +shadowed-text(0, -1px, 1px, rgba(0, 0, 0, 0.6))
+  font-size: $font_size
+  background-color: $color
+  display: inline-block
+  padding: 0.3em 0.6em
+  color: $text_color
+  text-decoration: none
+  font-weight: bold
+  line-height: 1em
+  border: 1px solid $color
+  position: relative
+  cursor: pointer
 
 // Styles
 a
   text-decoration: none
-  color= !ur_pink
+  color: $ur_pink
+
+a.show_more
+  color: lighten($ur_pink, 20%)
 
 h1
   font-size: 3em
   margin: 0 0 0.2em 0
-  +shadowed-text(0, 2px, 3px, #fff)
-  
+  +shadowed-text(0, 2px, 3px, white)
   a
-    color: #000
+    color: black
 
 h2
   font-size: 2.2em
   line-height: 1em
-  
+
 h3
   font-size: 1.8em
 
 h2, h3
   margin-bottom: 0.2em
-  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Calibri,"Lucida Sans Unicode",Arial,Helvetica,FreeSans,"Nimbus Sans L",sans-serif
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Calibri, "Lucida Sans Unicode", Arial, Helvetica, FreeSans, "Nimbus Sans L", sans-serif
   font-weight: 300
   padding-top: 0
-  
+
 ul
   margin: 0
-  
+
 li
   list-style: none
 
 body
-  background-color: #ddd
-  
+  background-color: #dddddd
   div.content
-    margin= 2.5em 0
+    margin: 2.5em 0
     overflow: hidden
-    
     ul
       margin-bottom: 1em
-    
     h4
       margin-bottom: 0.3em
-    
     li
       margin: 0 0 0.3em 0
-      
       span
-        color= !ur_gray
-    
+        color: $ur_gray
     div.no_search
       text-align: right
       margin-right: 1.2em
       font-size: 10em
       line-height: 0.5em
-    
     div.main_content, div.sidebar
-      background-color: #fff
+      background-color: white
       +round-corners(8px)
       padding: 1.5em
-    
     div.main_content
-      color= !ur_dark_gray
+      color: $ur_dark_gray
       p.easy_to_read_description
         font-weight: bold
         margin-bottom: 0.6em
       h3
         font-size: 1.5em
-        color= !ur_gray
+        color: $ur_gray
       h4
         margin-top: 0.6em
         font-weight: normal
         font-size: 1.4em
-        color= !ur_dark_gray
+        color: $ur_dark_gray
       table
         width: 100%
         border-collapse: collapse
@@ -126,32 +120,35 @@ body
         margin-right: 1em
         th, td
           padding: 0.5em
-          border= 1px "solid" !ur_light_gray
+          border: 1px solid $ur_light_gray
         th
           text-align: left
-          background= !ur_light_gray
-        
+          background: $ur_light_gray
         tr.even td
           background: #fbfbfb
-      
     div.sidebar
       label
         font-weight: bolder
-    
+      div.facet, div.tag_cloud
+        h4
+          font-size: 1.2em
+      ul
+        li
+          span
+            span
+              font-weight: bolder
+              color: $ur_dark_gray
     div.products
-      background-color: #fff
+      background-color: white
       +round-corners(8px)
       &:first-child
         padding-top: 1em
       &:last-child
         padding-bottom: 2em
-      
       div.no_products
         padding: 0em 1.2em
-      
       div.product
         margin-bottom: 1em
-        
         div.alpha
           text-align: center
           img
@@ -159,55 +156,49 @@ body
         h4
           font-size: 1.1em
           margin-bottom: 0
-        
         strong
-          color= !ur_dark_gray
-        
+          color: $ur_dark_gray
         p
-          color= !ur_gray
+          color: $ur_gray
           margin-bottom: 0.1em
-          margin-right: 1em
+          margin-right: 1.5em
           font-size: 0.9em
-          
       div.next_page
         text-align: right
         font-size: 2em
         margin-right: 1em
         padding: 1em 0.2em 0
-/* Search form */  
+
+/* Search form */
 #search
   margin: 0 0 1.5em 1em
-  
   input
     vertical-align: middle
-  
   input[type=text]
     padding: 0.2em
     font-size: 1.5em
     +round-corners(0.2em)
-    width: 200px
-  
+    width: 300px
   input[type=submit]
-    +button(!ur_pink, #fff, 0.4em, 1.5em)
+    +button($ur_pink, white, 0.4em, 1.5em)
     margin-left: 0.5em
 
 div.num_found
   vertical-align: middle
-  color= !ur_gray
+  color: $ur_gray
   margin: 0.4em 0 1em 0
-  
   strong
-    color= !ur_dark_gray
+    color: $ur_dark_gray
 
 .dimmed
-  color= !ur_gray
+  color: $ur_gray
 
 .small
   font-size: x-small
 
 .hidden
   display: none
-  
+
 .clearfix
   *display: inline-block
   &:after
@@ -216,20 +207,20 @@ div.num_found
     height: 0
     clear: both
     visibility: hidden
-    
+
 .remove_facet_filter
-  font-size: 1.2em
+  font-size: 1.7em
   line-height: 0.7em
+  float: right
 
 .remove_tag_cloud_filter
-  font-size: 2em
+  font-size: 1.7em
   line-height: 1.2em
   float: right
   padding-left: 1em
-  margin-top: -1.4em
-  
+
 ul.auto-complete-list
-  +box-shadow(2px, 2px, 4px, rgba(122,129,136,1))
+  +box-shadow(2px, 2px, 4px, rgba(122, 129, 136, 1))
   list-style-type: none
   margin: 0
   margin-top: -1px
@@ -242,38 +233,37 @@ ul.auto-complete-list
     list-style-type: none
     margin: 0
     padding: 2px
-    background-color: #fff
-    border-bottom: 1px solid #eee
+    background-color: white
+    border-bottom: 1px solid #eeeeee
     border-right: 1px solid #7a8188
-    border-left: 1px solid #ccc
+    border-left: 1px solid #cccccc
     cursor: pointer
   .auto-complete-list-rollover
-    background-color= !ur_pink
-    color: #fff
+    background-color: $ur_pink
+    color: white
   .auto-complete-striped
-    background-color: #D7EEF9
-    
+    background-color: #d7eef9
+
 /* Navigation */
 ul.nav
   margin-top: 1.2em
   margin-bottom: 0
   padding-bottom: 0
-  
+
 ul.nav li
   float: left
   padding-left: 1.55em
 
 ul.nav a
-  color= !ur_dark_gray
+  color: $ur_dark_gray
   font-size: 1.8em
 
 ul.nav a.active, ul.nav a:hover
-  border-bottom= 5px "solid" !ur_pink
-  
+  border-bottom: 5px solid $ur_pink
+
 /* Subjects (SAB codes) */
 ul.sab_codes
   margin-top: 1em
-  
   li
     strong
       display: block
@@ -281,13 +271,9 @@ ul.sab_codes
       margin-right: 10px
       padding: 0 5px
       width: 40px
-      
     span
       a
-        color= !ur_dark_gray
-  
+        color: $ur_dark_gray
   li.selected
     font-size: 1.4em
     margin-bottom: 0
-    
-    
