@@ -1,7 +1,7 @@
 # Initial version by Masaki Yatsu <yatsu@yatsu.info>
 # Modified by Peter Hellberg <peter@c7.se>
 
-class TagCloud
+class TagCloud  
   def initialize
     @counts = Hash.new
     @urls = Hash.new
@@ -66,5 +66,9 @@ class TagCloud
   
   def empty?
     @counts.empty?
+  end
+  
+  def num_tags
+    @urls.size
   end
 end

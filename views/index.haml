@@ -8,7 +8,7 @@
         %a.active{ :href => '/' }="Sök"
       %li
         %a{ :href => '/subjects' }="Bläddra ämnesvis"
-  - if !search.nil? && search.ok? && search.num_found > 0
+  - if !search.nil? && search.ok?
     %div.grid-8
       %div.products.clearfix
         = haml :'_search', { :layout => false, :locals => { :search => search }}
@@ -25,15 +25,15 @@
                   = translated_product_type(product.full_type)
                   = " (#{product.production_year})" if !product.production_year.nil?
                 %p=product.easy_to_read_description
-          - if search.next_page > current_page
+          - if search.next_page > current_page && search.num_found > 0
             %div.next_page
               %a{ :href => next_page_link(search.next_page) }
-                ="Nästa sida &rarr;"    
+                ="Nästa sida &rarr;"
     %div.grid-4
       %div.sidebar
         %h3
-          = "Filtrera träffar"  
-        - if tag_cloud
+          = "Filtrera träffar"
+        - if tag_cloud && tag_cloud.num_tags > 0
           %div.tag_cloud
             %h4= "Ämnesord"
             %ul
