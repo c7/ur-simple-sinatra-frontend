@@ -26,11 +26,7 @@ class TagCloud
     tags = @counts.sort_by {|a, b| b }.reverse.map {|a, b| a }
     tags = tags[0..limit-1] if limit
     if tags.empty?
-      return "" 
-    elsif tags.size == 1
-      tag = tags[0]
-      url = @urls[tag]
-      return %{<span class="tagcloud12"><a href='#{url}'>#{tag}</a></span>\n}
+      return ""
     end
 
     min = Math.sqrt(@counts[tags.last])
@@ -40,7 +36,7 @@ class TagCloud
     # special case all tags having the same count
     if max - min == 0
       min = min - 4
-      factor = 1
+      factor = 12
     else
       factor = 12 / (max - min)
     end

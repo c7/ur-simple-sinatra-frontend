@@ -15,4 +15,6 @@ $(document).ready(function() {
     function(){$(this).parent().css('background-color', '#f7f7f7');},
     function(){$(this).parent().css('background-color', '#fff');}
   );
+  
+  $("a[rel^=prettyPhoto]").prettyPhoto({theme:'dark_rounded'});
 });

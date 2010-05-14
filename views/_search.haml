@@ -5,7 +5,7 @@
     - else
       %input#boolean_search{ :type => 'checkbox', :name => 'boolean_search' }
     %label{ :for => "boolean_search" }= "Boolesk sökning"
-  %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => params[:q] }
+  %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => h(params[:q]) }
   %select{ :name => 'sort', :onchange => "$('#search_form').submit();" }
     - if (!params[:sort].nil? && params[:sort] == '') || params[:sort].nil?
       %option{ :value => "", :selected => 'selected' }= "Relevans"
@@ -19,6 +19,9 @@
       %option{ :value => "productionyear asc", :selected => 'selected' }= "År, stigande"
     - else
       %option{ :value => "productionyear asc" }= "År, stigande"
+  
+  - if !params[:fq].blank? && params[:fq].match('sab_subjects')
+    %input{ :type => 'hidden', :name => 'fq', :value => h(params[:fq]) }
   %input.button{ :type => 'submit', :value => 'Sök' }
   %div.stream_filters
     - if (!params[:stream_filter].nil? && params[:stream_filter] == 'off') || params[:stream_filter].nil?

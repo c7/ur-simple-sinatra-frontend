@@ -9,6 +9,7 @@ end
 require 'sinatra'
 require 'enumerator'
 require 'lib/ur_helpers'
+require 'lib/ur_internal_streaming.rb'
 require 'ur-product'
 require 'ur-sab'
 
@@ -107,7 +108,14 @@ get '/' do
   end
   
   begin
-    search_result = UR::Product.search(search_params)
+    search_result   = UR::Product.search(search_params)
+    
+    begin 
+      streaming_data = UR::InternalStreaming.search(search_result)
+    rescue UR::InternalStreaming::IdsArgumentEmpty
+      streaming_data = []
+    end
+    
     tag_cloud = (search_result.ok?) ? build_tag_cloud(search_result) : false
     
     haml :index, :locals => {
@@ -116,6 +124,7 @@ get '/' do
       :search => search_result,
       :tag_cloud => tag_cloud,
       :selected_sab => selected_sab,
+      :streaming_data => streaming_data,
       :body_class => 'search',
       :facet_order => [
         ['search_product_type', 'Typ'],

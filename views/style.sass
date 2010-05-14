@@ -41,7 +41,7 @@ $ur_light_gray: lighten($ur_gray, 70%)
   border: 1px solid $color
   position: relative
   cursor: pointer
-
+  
 // Styles
 a
   text-decoration: none
@@ -158,6 +158,8 @@ body
           margin-bottom: 0
         strong
           color: $ur_dark_gray
+        strong.duration
+          font-size: 0.8em
         p
           color: $ur_gray
           margin-bottom: 0.1em
@@ -194,6 +196,16 @@ body
     +button($ur_pink, white, 0.2em, 1em)
     margin-left: 0.4em
 
+span.streaming_links
+  line-height: 16px
+  img
+    vertical-align: top
+    margin-top: 3px
+  a
+    color: #000
+    font-size: 0.9em
+    
+
 div.stream_filters
   margin-top: 0.4em
 
@@ -223,7 +235,7 @@ div.num_found
     visibility: hidden
 
 .remove_facet_filter
-  font-size: 1.7em
+  font-size: 1em
   line-height: 0.7em
   float: right
 

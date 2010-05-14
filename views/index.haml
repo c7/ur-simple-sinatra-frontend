@@ -18,13 +18,28 @@
               %div.grid-2.alpha
                 %a{ :href => "/#{product.ur_product_id}" }
                   %img{ :src => product.image_url(1, '_t'), :width => 128 }
-              %div.grid-6.omega
+              %div.grid-5
                 %h4
                   %a{ :href => "/#{product.ur_product_id}" }= product.title
                 %strong
                   = translated_product_type(product.full_type)
                   = " (#{product.production_year})" if !product.production_year.nil?
                 %p=product.easy_to_read_description
+                - if product.has_duration?
+                  %strong.duration= product.humanized_duration
+              %div.grid-1.omega
+                - if streaming_data[product]['internal'] == true
+                  %span.streaming_links
+                    - if  product.full_type == 'programradio'
+                      %a{ :title => h(product.title), :rel => 'prettyPhoto',
+                          :href => mediaplayer_link(product.ur_product_id, streaming_data[product]['videos']['mp3']) }
+                        %img{ :src => '/images/icons/16x16/play_icon.png' }
+                        = "Lyssna"
+                    - else
+                      %a{ :title => h(product.title), :rel => 'prettyPhoto',
+                          :href => mediaplayer_link(product.ur_product_id, streaming_data[product]['videos']['mp4']) }
+                        %img{ :src => '/images/icons/16x16/play_icon.png' }
+                        = "Titta"
           - if search.next_page > current_page && search.num_found > 0
             %div.next_page
               %a{ :href => next_page_link(search.next_page) }
