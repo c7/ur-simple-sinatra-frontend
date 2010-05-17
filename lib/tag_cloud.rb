@@ -25,10 +25,8 @@ class TagCloud
   def html(limit = nil)
     tags = @counts.sort_by {|a, b| b }.reverse.map {|a, b| a }
     tags = tags[0..limit-1] if limit
-    if tags.empty?
-      return ""
-    end
-
+    return "" if tags.empty?
+    
     min = Math.sqrt(@counts[tags.last])
     max = Math.sqrt(@counts[tags.first])
     factor = 0
