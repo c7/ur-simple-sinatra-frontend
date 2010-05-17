@@ -1,6 +1,5 @@
 - if !params[:fq].nil? && params[:fq].match(facet_filter(name, facet))
-  %a.remove_facet_filter{ :href => remove_facet_link(name, facet) }
-    = "&otimes;"
+  %a.remove_facet_filter{ :href => remove_facet_link(name, facet) }= "X"
   %span
     %span=translated_facet(name, facet)
     %span="(#{facet.hits})"

@@ -54,8 +54,8 @@
             %ul
               %li
                 - if !params[:fq].nil? && params[:fq].match('ao:')
-                  %a.remove_tag_cloud_filter{ :href => remove_facet_link('ao') }
-                    = "&otimes;"
+                  %a.remove_facet_filter{ :href => remove_facet_link('ao') }
+                    = "X"
                 = tag_cloud.html_and_css(15)
         - if selected_sab
           %h4= "Ämneskod"
@@ -65,19 +65,19 @@
                 %strong= selected_sab.code
                 %span= selected_sab.text
               %a.remove_facet_filter{ :href => remove_facet_link('sab_subjects') }
-                = "&otimes;"
+                = "X"
                 
         - facet_order.each do |facet_name, facet_title|
           - if !search.facets[facet_name].nil? && search.facets[facet_name].size > 0
             %div.facet{ :class => facet_name }
               %h4=facet_title
               %ul
-                - search.facets[facet_name][0...5].each do |facet|
+                - search.facets[facet_name][0...8].each do |facet|
                   %li
                     = haml(:'_facet', { :layout => false, :locals => { :name => facet_name, :facet => facet }})
-                - if search.facets[facet_name].count > 5
+                - if search.facets[facet_name].count > 8
                   %li
                     %a.show_more{ :href => '#' }= "Visa fler…"
-                  - search.facets[facet_name][5..-1].each do |facet|
+                  - search.facets[facet_name][8..-1].each do |facet|
                     %li.hidden
                       = haml(:'_facet', { :layout => false, :locals => { :name => facet_name, :facet => facet }})
