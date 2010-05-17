@@ -38,7 +38,6 @@ module Sinatra
 
       # puts search_result.facets.inspect
       tags = search_result.facets['ao'].slice(0,15)
-      puts tags.inspect
       
       if tags.size > 0
         tags.each do |tag|

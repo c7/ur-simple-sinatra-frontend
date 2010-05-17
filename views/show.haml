@@ -20,6 +20,23 @@
           %a{ :href => product.url }= product.url
       %p.easy_to_read_description= product.easy_to_read_description
       %p.description= product.description
+      - if product.has_distribution_events?
+        %h4= "Distributionstillfällen"
+        %table
+          %tbody
+            %tr
+              %th= "Start"
+              %th= "Slut"
+              %th= "Typ"
+              %th{ :width => 40 }= "Kanal"
+            - product.distribution_events.each_with_index do |event, index|
+              %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
+                %td= event.start_date.strftime('%Y-%m-%d %H:%M')
+                %td= event.end_date.strftime('%Y-%m-%d %H:%M')
+                %td= event.event_type
+                %td
+                  %img{ :title => event.platform, :src => "/images/platforms/#{event.platform}.png" }
+                
       - if product.has_packagecd?
         %h4= "CD-skivor"
         %ul
@@ -34,20 +51,60 @@
             %li
               %a{ :href => p.ur_product_id }= p.title
               %span= "(#{p.related_product_ids.size} program)"
+      - if product.has_storages?
+        %h4= "Lagringsinnehåll"
+        %table
+          %th= "Ordernummer"
+          %th= "Format"
+          %th= "Typ"
+          %th= "Lagring"
+          %th= "Plats"
+          
+          - product.storages.each_with_index do |storage, index|
+            %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
+              %td= storage.order_number
+              %td= storage.storage_format
+              %td= storage.storage_type
+              %td= storage.storage_kind
+              %td= storage.location
+      - if product.has_programtv?
+        %h4= "Program i tv-serien"
+        %table
+          %tbody
+            %tr
+              %th= "Titel"
+              %th{ :width => 100 }= "AV-nummer"
+            - product.programtv.each_with_index do |p, index|
+              %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
+                %td
+                  %a{ :href => p.ur_product_id }= p.remainder_of_title
+                %td= p.obsolete_order_id
+      - if product.has_programradio?
+        %h4= "Program i radio-serien"
+        %table
+          %tbody
+            %tr
+              %th= "Titel"
+              %th{ :width => 100 }= "AV-nummer"
+            - product.programradio.each_with_index do |p, index|
+              %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
+                %td
+                  %a{ :href => p.ur_product_id }= p.remainder_of_title
+                %td= p.obsolete_order_id
       - if product.has_packageseries?
         - product.packageseries.each do |series|
           - if series.easy_to_read_description
             %h4
               = "#{translated_product_type(series.full_type)}:"
               %a{ :href => "/#{series.ur_product_id}" }=series.title
-            %p= series.easy_to_read_description
+            %p= series.description
       - if product.has_siblings?
         %h4= "Andra program i serien"
         %table
           %tbody
             %tr
               %th= "Titel"
-              %th= "AV-nummer"
+              %th{ :width => 100 }= "AV-nummer"
             - product.siblings.each_with_index do |p, index|
               %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
                 %td

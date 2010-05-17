@@ -130,9 +130,9 @@ get '/' do
       :facet_order => [
         ['search_product_type', 'Typ'],
         ['typicalagerange', 'Målgrupp'],
+        ['language', 'Talat språk'],
         ['subtitle_languages', 'Textning'],
         ['productionyear', 'Produktionsår'],
-        ['language', 'Språk'],
         ['sli_entry', 'SLI-kod']
       ]
     }

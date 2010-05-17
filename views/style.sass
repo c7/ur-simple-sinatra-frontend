@@ -120,11 +120,10 @@ body
         margin-right: 1em
         th, td
           padding: 0.5em
-          border: 1px solid $ur_light_gray
+          border: 1px solid lighten($ur_gray, 40%)
         th
           text-align: left
-          background: $ur_light_gray
-        tr.even td
+        tr.even td, th
           background: #fbfbfb
     div.sidebar
       label
@@ -297,6 +296,12 @@ ul.sab_codes
     span
       a
         color: $ur_dark_gray
+        background: transparent
+        padding-left: 0
+    a
+      background: url("/images/icons/10x10/right_arrow.png") no-repeat scroll left center transparent
+      padding-left: 12px
+        
   li.selected
     font-size: 1.4em
     margin-bottom: 0

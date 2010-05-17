@@ -35,11 +35,19 @@
     - if p.has_sab?
       %li
         %label= "Ämneskod:"
-        = p.sab.first
+        = p.sab.join(', ')
     - if p.has_sao?
       %li
         %label= "Ämnesord:"
         = p.sao.join(', ')
+    - if p.has_sli?
+      %li
+        %label= "SLI:"    
+        - if p.has_sli_sub?
+          = "#{p.sli['entry']} — "
+          %span.dimmed= p.sli_sub.map { |sli_sub| sli_sub['entry'] }.join(', ')
+        - else
+          = p.sli['entry']
 %h4= "Övrigt"
 %ul
   %li
@@ -55,3 +63,7 @@
   %li
     %label= "Format:"
     = p.format
+  - if p.has_difficulty?
+    %li
+      %label= "Svårighetsgrad:"
+      = p.difficulty
