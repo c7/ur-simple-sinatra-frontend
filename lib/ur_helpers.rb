@@ -38,8 +38,9 @@ module Sinatra
 
       # puts search_result.facets.inspect
       tags = search_result.facets['ao'].slice(0,15)
-
-      if tags.size > 1
+      puts tags.inspect
+      
+      if tags.size > 0
         tags.each do |tag|
           cloud.add(tag.value, facet_link('ao', tag), tag.hits)
         end
@@ -87,6 +88,7 @@ module Sinatra
       
       link = base_link  
       link = link.gsub(/#{name}:"#{facet}"[ ]{0,}/, '').
+                  gsub(/page=\d+/, 'page=1').
                   gsub('?fq=&', '?').sub(' &', '&').sub('  ', ' ')
       link
     end
@@ -122,24 +124,6 @@ module Sinatra
       ranges.to_a.map { |range| 
         translated_typical_age_range(range) 
       }.join(', ')
-    end
-    
-    def translated_typical_age_range(range)
-      translations = {
-        'preschool' => 'Förskola',
-        'primary0-3' => 'Grundskola 0-3',
-        'primary4-6' => 'Grundskola 4-6',
-        'primary7-9' => 'Grundskola 7-9',
-        'schoolvux'  => 'Vuxenövergripande',
-        'university' => 'Högskola',
-        'komvuxgrundvux' => 'Komvux/Grundvux',
-        'teachereducation' => 'Lärarfortbildning',
-        'folkhighschool' => 'Folkhögskola/Studieförbund',
-        'secondary' => 'Gymnasieskola',
-        'popularadulteducation' => 'Folkbildning'
-      }
-
-      translations.has_key?(range) ? translations[range] : range
     end
     
     def translated_product_type(type)
