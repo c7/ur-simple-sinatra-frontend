@@ -54,38 +54,42 @@
       - if product.has_storages?
         %h4= "Lagringsinnehåll"
         %table
-          %th= "Ordernummer"
-          %th= "Format"
-          %th= "Typ"
-          %th= "Lagring"
-          %th= "Plats"
-          
-          - product.storages.each_with_index do |storage, index|
-            %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
-              %td= storage.order_number
-              %td= storage.storage_format
-              %td= storage.storage_type
-              %td= storage.storage_kind
-              %td= storage.location
-      - if product.has_programtv?
-        %h4= "Program i tv-serien"
-        %table
+          %thead
+            %tr
+              %th= "Ordernummer"
+              %th= "Format"
+              %th= "Typ"
+              %th= "Lagring"
+              %th= "Plats"
           %tbody
+            - product.storages.each_with_index do |storage, index|
+              %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
+                %td= storage.order_number
+                %td= storage.storage_format
+                %td= storage.storage_type
+                %td= storage.storage_kind
+                %td= storage.location
+      - if product.has_programtv?
+        %h4= "Program i TV-serien"
+        %table
+          %thead
             %tr
               %th= "Titel"
               %th{ :width => 100 }= "AV-nummer"
+          %tbody
             - product.programtv.each_with_index do |p, index|
               %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
                 %td
                   %a{ :href => p.ur_product_id }= p.remainder_of_title
                 %td= p.obsolete_order_id
       - if product.has_programradio?
-        %h4= "Program i radio-serien"
+        %h4= "Program i radioserien"
         %table
-          %tbody
+          %thead
             %tr
               %th= "Titel"
               %th{ :width => 100 }= "AV-nummer"
+          %tbody
             - product.programradio.each_with_index do |p, index|
               %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
                 %td
@@ -97,14 +101,16 @@
             %h4
               = "#{translated_product_type(series.full_type)}:"
               %a{ :href => "/#{series.ur_product_id}" }=series.title
-            %p= series.description
+            %p.easy_to_read_description= series.easy_to_read_description
+            %p.description= series.description
       - if product.has_siblings?
         %h4= "Andra program i serien"
         %table
-          %tbody
+          %thead
             %tr
               %th= "Titel"
               %th{ :width => 100 }= "AV-nummer"
+          %tbody
             - product.siblings.each_with_index do |p, index|
               %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
                 %td
