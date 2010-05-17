@@ -17,6 +17,10 @@
     %li
       %label= "Producerande bolag:"
       = p.producing_company
+  - if p.has_production_year?
+    %li
+      %label= "Produktionsår:"
+      = p.production_year
 - if p.has_documents?
   %h4= "Dokument"
   %ul
@@ -25,7 +29,7 @@
         %label="#{translated_product_type(document.full_type)}:"
         - document.storages.each do |storage|
           %a{ :href => storage.location }= storage.storage_format
-- if p.has_sab? && p.has_sao?
+- if p.has_sab? || p.has_sao?
   %h4= "Ämnen"
   %ul
     - if p.has_sab?
@@ -45,3 +49,9 @@
     %li
       %label="AV-nummer:"
       = p.obsolete_order_id
+  %li
+    %label= "Status:"
+    = p.status
+  %li
+    %label= "Format:"
+    = p.format
