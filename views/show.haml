@@ -51,7 +51,7 @@
             - product.siblings.each_with_index do |p, index|
               %tr{ :class => (index % 2).zero?? 'odd' : 'even'  }
                 %td
-                  %a{ :href => p.ur_product_id }= p.title
+                  %a{ :href => p.ur_product_id }= p.remainder_of_title
                 %td= p.obsolete_order_id
   %div.grid-4
     %div.sidebar
