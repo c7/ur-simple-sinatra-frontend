@@ -79,14 +79,15 @@ get '/' do
     search_params[:fq] = params[:fq]
   end
   
-  # Query and page parameters
+  # Query
   if !params[:q].nil? && params[:q].length > 0
     search_params[:q] = params[:q]
-    
-    if !params[:page].blank? && params[:page].match(/^\d+$/)
-      search_params[:page] = params[:page].to_i
-      current_page = search_params[:page]
-    end
+  end
+  
+  # Page
+  if !params[:page].blank? && params[:page].match(/^\d+$/)
+    search_params[:page] = params[:page].to_i
+    current_page = search_params[:page]
   end
   
   # Stream filtering
