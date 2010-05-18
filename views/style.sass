@@ -125,6 +125,16 @@ body
           text-align: left
         tr.even td, th
           background: #fbfbfb
+      h4.expandable
+        background: url('/images/icons/16x16/pink_arrow_right.png') no-repeat 0 5px
+        padding-left: 17px
+        margin-left: -17px
+        cursor: pointer
+      h4.expandable.expanded
+        background: url('/images/icons/16x16/pink_arrow_down.png') no-repeat 0 5px
+      div.section
+        display: none
+        
     div.sidebar
       label
         font-weight: bolder
@@ -173,13 +183,6 @@ body
 /* Search form */
 #search
   margin: 0 0 1.5em 1em
-  div.boolean_search
-    color: $ur_gray
-    position: absolute
-    left: -140px
-    top: 15px
-    label
-      vertical-align: middle
   select
     font-size: 1em
     padding: 0.3em
@@ -240,31 +243,6 @@ div.num_found
   background: url('/images/icons/16x16/pink_cross.png') no-repeat
   width: 16px
   height: 16px
-
-ul.auto-complete-list
-  +box-shadow(2px, 2px, 4px, rgba(122, 129, 136, 1))
-  list-style-type: none
-  margin: 0
-  margin-top: -1px
-  padding: 0
-  position: absolute
-  z-index: 100
-  max-height: 250px
-  overflow: auto
-  li
-    list-style-type: none
-    margin: 0
-    padding: 2px
-    background-color: white
-    border-bottom: 1px solid #eeeeee
-    border-right: 1px solid #7a8188
-    border-left: 1px solid #cccccc
-    cursor: pointer
-  .auto-complete-list-rollover
-    background-color: $ur_pink
-    color: white
-  .auto-complete-striped
-    background-color: #d7eef9
 
 /* Navigation */
 ul.nav

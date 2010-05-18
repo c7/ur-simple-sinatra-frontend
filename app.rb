@@ -1,42 +1,16 @@
-# Monkey patching for fun and profit
-module UR
-  class Search
-    SEARCH_SERVICE_URL = 'http://localhost:8080/search'
-  end
-end
-
 # Requirements
 require 'sinatra'
 require 'enumerator'
 require 'lib/ur_helpers'
-require 'lib/ur_internal_streaming.rb'
 require 'ur-product'
 require 'ur-sab'
 
-# Configuration
-
-configure :development do
-  puts "DEVELOPMENT: Reloading application"
-end
-
-configure :production do
-  require 'memcached'
-  require 'rack/cache'
-    
-  use Rack::Cache,
-    :verbose     => true,
-    :metastore   => 'memcached://localhost:11211/ur-simple-search-meta',
-    :entitystore => 'memcached://localhost:11211/ur-simple-search-body'
-end
-
 # Application
-
 set :haml, { :format => :html5 }
 
 get %r{/(\d{6})} do |ur_product_id|
-  response["Cache-Control"] = "max-age=60, public" 
-  
   product = UR::Product.find(ur_product_id)
+  
   if !product.nil?
     haml :show, :locals => { 
       :page_title => "UR Produktsök — #{product.title}",
@@ -49,8 +23,6 @@ get %r{/(\d{6})} do |ur_product_id|
 end
 
 get '/subjects' do
-  response["Cache-Control"] = "max-age=300, public"
-  
   sab_search = UR::SabSearch.new(params[:sab_code])
   
   if sab_search.subjects.count == 1
@@ -65,10 +37,7 @@ get '/subjects' do
   }
 end
 
-get '/' do
-  # Caching
-  response["Cache-Control"] = "max-age=60, public"
-  
+get '/' do  
   # Defaults
   current_page = 1
   search_params = { :per_page => 10 }
@@ -110,13 +79,7 @@ get '/' do
   
   begin
     search_result   = UR::Product.search(search_params)
-    
-    begin 
-      streaming_data = UR::InternalStreaming.search(search_result)
-    rescue UR::InternalStreaming::IdsArgumentEmpty
-      streaming_data = []
-    end
-    
+        
     tag_cloud = (search_result.ok?) ? build_tag_cloud(search_result) : false
     
     haml :index, :locals => {
@@ -125,7 +88,6 @@ get '/' do
       :search => search_result,
       :tag_cloud => tag_cloud,
       :selected_sab => selected_sab,
-      :streaming_data => streaming_data,
       :body_class => 'search',
       :facet_order => [
         ['search_product_type', 'Typ'],
@@ -146,23 +108,7 @@ get '/' do
   end
 end
 
-post '/autocomplete.json' do
-  response["Cache-Control"] = "max-age=120, public"
-  
-  content_type :json
-  term = URI.escape(params[:value])
-  url = UR::Search::SEARCH_SERVICE_URL +
-        "/terms?wt=json&terms.fl=search_ao&terms.prefix=#{term}"
-  response = JSON.parse(RestClient.get(url).body)
-  
-  response['terms'][1].each_slice(2).each.map { |t|
-    { :value => t[0], :display => t[0] }
-  }.to_json
-end
-
 get '/stylesheets/style.css' do
-  response["Cache-Control"] = "max-age=120, public"
-  
   content_type :css
   sass :style
 end

@@ -1,10 +1,4 @@
 %form#search{ :action => '/', :method => 'get' }
-  %div.boolean_search
-    - if !params[:boolean_search].nil? && params[:boolean_search] == 'on'
-      %input#boolean_search{ :type => 'checkbox', :checked => 'checked', :name => 'boolean_search' }
-    - else
-      %input#boolean_search{ :type => 'checkbox', :name => 'boolean_search' }
-    %label{ :for => "boolean_search" }= "Boolesk sökning"
   %input{ :type => 'text', :name => 'q', :autofocus => 'true', :value => h(params[:q]) }
   %select{ :name => 'sort', :onchange => "$('#search_form').submit();" }
     - if (!params[:sort].nil? && params[:sort] == '') || params[:sort].nil?
