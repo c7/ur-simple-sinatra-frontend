@@ -1,11 +1,13 @@
 # UR Simple Sinatra Frontend
 
-A simple Sinatra application demonstrating how to use the 
-[ur-product](http://rubygems.org/gems/ur-product) gem.
+A simple Sinatra application demonstrating the use of the 
+[ur-product](http://rubygems.org/gems/ur-product) and 
+[ur-sab](http://rubygems.org/gems/ur-sab) gems.
 
 ### Installation
 
-  Just clone this repo!
+    sudo gem install ur-product ur-sab
+    git clone git://github.com/c7/ur-simple-sinatra-frontend.git
 
 ### Related Resources (in Swedish)
 
