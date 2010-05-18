@@ -13,26 +13,6 @@ module Sinatra
     include Rack::Utils
     alias_method :h, :escape_html
     
-    def mediaplayer_link(id, file)
-      link = '/mediaplayer/player.swf?' 
-      
-      params = {
-        'autostart' => 'true',
-        'dock' => 'false',
-        'lightcolor' => '88C007',
-        'frontcolor' => 'ffffff',
-        'bufferlength' => 3,
-        'width' => 640,
-        'height' => 465,
-        'skin' => '/mediaplayer/skins/urplay.zip',
-        'image' => "http%3A%2F%2Fassets.ur.se%2Fid%2F#{id}%2Fimages%2F1_l.jpg",
-        'streamer' => 'rtmp://streaming.ur.se:1935/ondemand',
-        'file' => "/#{file}"
-      }
-      
-      "#{link}#{params.each_pair.map { |k,v| "#{k}=#{v}" }.join('&amp;')}"
-    end
-    
     def build_tag_cloud(search_result)
       cloud = TagCloud.new
 
