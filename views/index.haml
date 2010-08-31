@@ -27,7 +27,7 @@
                 %p=product.easy_to_read_description
                 - if product.has_duration?
                   %strong.duration= product.humanized_duration
-          - if search.next_page > current_page && search.num_found > 0
+          - if search.next_page && search.next_page > current_page && search.num_found > 0
             %div.next_page
               %a{ :href => next_page_link(search.next_page) }
                 ="Nästa sida &rarr;"
