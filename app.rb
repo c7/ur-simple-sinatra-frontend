@@ -11,7 +11,7 @@ set :haml, { :format => :html5 }
 get %r{/(\d{6})} do |ur_product_id|
   product = UR::Product.find(ur_product_id)
   
-  if !product.nil?
+  if !product.nil? && product.ok?
     haml :show, :locals => { 
       :page_title => "UR Produktsök — #{product.title}",
       :body_class => 'product',
